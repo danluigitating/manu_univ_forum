@@ -9,7 +9,7 @@ CREATE TABLE USERS (
 CREATE TABLE POSTS (
     post_id INTEGER AUTO_INCREMENT PRIMARY KEY,
     content TEXT,
-    user_id TINYTEXT NOT NULL,
+    user_id VARCHAR(255) NOT NULL,
     likes INTEGER,
     dislikes INTEGER
 );
@@ -18,7 +18,7 @@ CREATE TABLE COMMENTS (
     comment_id INTEGER AUTO_INCREMENT PRIMARY KEY,
     post_id INTEGER NOT NULL,
     content TEXT,
-    user_id TINYTEXT NOT NULL,
+    user_id VARCHAR(255) NOT NULL,
     likes INTEGER,
     dislikes INTEGER
 );

@@ -1,4 +1,4 @@
-const User = require("../../database/usersModel")
+const User = require("../../../database/model/usersModel")
 
 exports.findAll = (req, res) => {
     User.findAll((err, data) => {

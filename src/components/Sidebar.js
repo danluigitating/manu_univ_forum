@@ -15,6 +15,7 @@ import {
 } from '@ant-design/icons'
 import React, {useState} from "react"
 import Posts from "./Posts"
+import {NewsFeed} from "../pages/NewsFeed";
 
 const {Header, Content, Footer, Sider} = Layout
 
@@ -66,7 +67,7 @@ export default function Sidebar() {
                             <Route exact path="/">
                                 <Content style={{margin: '24px 16px 0', minHeight: '88vh'}}>
                                     <div className="site-layout-background" style={{padding: 24, minHeight: 360}}>
-                                        <Posts/>
+                                        <NewsFeed/>
                                     </div>
                                 </Content>
                             </Route>

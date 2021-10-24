@@ -1,4 +1,4 @@
-const sql = require('../database/database')
+const sql = require('../database')
 
 const User = (user) => {
     this.userId = user.user_id
@@ -9,7 +9,7 @@ const User = (user) => {
 }
 
 User.findAll = result => {
-    sql.query("SELECT * FROM users", (err, res) => {
+    sql.query("SELECT * FROM USERS", (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);

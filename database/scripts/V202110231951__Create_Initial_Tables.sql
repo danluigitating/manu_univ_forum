@@ -11,8 +11,8 @@ CREATE TABLE POSTS (
     content TEXT,
     tags TEXT,
     user_id VARCHAR(255) NOT NULL,
-    likes INTEGER,
-    dislikes INTEGER,
+    likes INTEGER DEFAULT 0,
+    dislikes INTEGER DEFAULT 0,
     create_date DATETIME,
     update_date DATETIME
 );
@@ -22,8 +22,8 @@ CREATE TABLE COMMENTS (
     post_id INTEGER NOT NULL,
     content TEXT,
     user_id VARCHAR(255) NOT NULL,
-    likes INTEGER,
-    dislikes INTEGER,
+    likes INTEGER DEFAULT 0,
+    dislikes INTEGER DEFAULT 0,
     create_date DATETIME,
     update_date DATETIME
 );

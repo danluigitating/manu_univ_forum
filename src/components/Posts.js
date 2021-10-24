@@ -56,6 +56,7 @@ const Posts = props => {
         </Tooltip>,
         <span key="comment-basic-reply-to" style={{fontSize: 15}}
               onClick={() => setOpenComment(!openComment)}>Add Reply</span>,
+        <div key="comment-basic" style={{fontSize: 15}}>Tags: {props.data.tags}</div>,
     ]
 
     const handleSubmit = () => {
@@ -65,7 +66,7 @@ const Posts = props => {
 
         setValue('')
         setComment([...comment, {
-            author: 'Han Solo',
+            author: localStorage.getItem("randomName"),
             avatar: 'https://joeschmoe.io/api/v1/random',
             content: <p>{value}</p>,
             datetime: moment().format('YYYY-MM-DD HH:mm:ss')
@@ -81,7 +82,7 @@ const Posts = props => {
             <Comment
                 actions={actions}
                 author={<h1 style={{fontSize: 15}}>{props.data.user_id}</h1>}
-                avatar={<Avatar src="https://joeschmoe.io/api/v1/random"/>}
+                avatar={<Avatar src="https://i.pravatar.cc/300"/>}
                 content={
                     <div>
                         <p style={{fontSize: 15}}>

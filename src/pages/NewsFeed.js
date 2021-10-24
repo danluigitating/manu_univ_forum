@@ -3,6 +3,7 @@ import React, {useEffect, useState} from "react"
 import {getAllPosts} from "../api/posts";
 import {getAllComments} from "../api/comments";
 import {getAllUsers} from "../api/users";
+import ModalDialog from "../components/ModalDialog";
 
 export const NewsFeed = () => {
     const [newsFeedData, setNewsFeedData] = useState([])
@@ -16,6 +17,8 @@ export const NewsFeed = () => {
     }, [])
 
     return (<div>
+        <ModalDialog/>
+
         {Object.keys(newsFeedData).length !== 0 && Object.keys(newsFeedComments).length !== 0
         && Object.keys(users).length !== 0 && newsFeedData.map((data) => {
             const comment = newsFeedComments.filter((comment) => comment.post_id === data.post_id)

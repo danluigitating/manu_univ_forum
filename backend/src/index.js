@@ -7,8 +7,14 @@ app.use(bodyParser.json())
 app.use(cors())
 app.use(bodyParser.urlencoded({extended: true}))
 
+const { uniqueNamesGenerator, adjectives, colors, animals } = require('unique-names-generator')
+
 app.get('/', (req, res) => {
     res.json({'message': 'Application is up!'})
+})
+
+app.get('/randomName', (req, res) => {
+    res.json(uniqueNamesGenerator({ dictionaries: [adjectives, colors, animals] }))
 })
 
 require("../src/routes")(app);

@@ -3,14 +3,24 @@ import {Comment, Tooltip, Avatar, List, Input, Button} from 'antd'
 import moment from 'moment'
 import {DislikeOutlined, LikeOutlined, DislikeFilled, LikeFilled} from '@ant-design/icons'
 
-const Posts = () => {
-    const [likes, setLikes] = useState(0)
-    const [dislikes, setDislikes] = useState(0)
+const Posts = props => {
+    const [likes, setLikes] = useState(props.data.dislikes)
+    const [dislikes, setDislikes] = useState(props.data.likes)
     const [action, setAction] = useState(null)
-    const [comment, setComment] = useState([])
+
+    let existingComments = []
+    props.comments.map( comment => { existingComments.push({
+        author: comment.user_id,
+        avatar: 'https://joeschmoe.io/api/v1/random',
+        content: <p>{comment.content}</p>,
+        datetime: moment(comment.create_date).format('YYYY-MM-DD HH:mm:ss')
+    })})
+
+    const [comment, setComment] = useState(existingComments)
     const [value, setValue] = useState('')
     const [openComment, setOpenComment] = useState(false)
     const {TextArea} = Input
+    const [individualPost, setindividualPost] = useState(props.data.content)
 
     const CommentList = ({comments}) => (
         <List
@@ -22,14 +32,12 @@ const Posts = () => {
     )
 
     const like = () => {
-        setLikes(1)
-        setDislikes(0)
+        setLikes(Number(likes) + 1)
         setAction('upvoted')
     }
 
     const dislike = () => {
-        setLikes(0)
-        setDislikes(1)
+        setDislikes(Number(dislikes) + 1)
         setAction('downvoted')
     }
 
@@ -69,28 +77,28 @@ const Posts = () => {
     }
 
     return (
-        <Comment
-            actions={actions}
-            author={<h1 style={{fontSize: 15}}>Han Solo</h1>}
-            avatar={<Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo"/>}
-            content={
-                <div>
-                    <p style={{fontSize: 15}}>
-                        We supply a series of design principles, practical patterns and high quality design
-                        resources (Sketch and Axure), to help people create their product prototypes beautifully
-                        and efficiently.
-                    </p>
-                    {comment.length > 0 && <CommentList comments={comment}/>}
-                    {openComment && <div><TextArea rows={4} onChange={handleChange} value={value}
-                                                   style={{marginTop: 20, marginBottom: 20}}/>
-                        <Button htmlType="submit" onClick={handleSubmit} type="primary">Add Comment</Button>
-                    </div>}
-                </div>
-            }
-            datetime={<span style={{fontSize: 15}}>{moment().format('YYYY-MM-DD HH:mm:ss')}</span>}
-        >
+        <div>
+            <Comment
+                actions={actions}
+                author={<h1 style={{fontSize: 15}}>{props.data.user_id}</h1>}
+                avatar={<Avatar src="https://joeschmoe.io/api/v1/random"/>}
+                content={
+                    <div>
+                        <p style={{fontSize: 15}}>
+                            {individualPost}
+                        </p>
+                        {comment.length > 0 && <CommentList comments={comment}/>}
+                        {openComment && <div><TextArea rows={4} onChange={handleChange} value={value}
+                                                       style={{marginTop: 20, marginBottom: 20}}/>
+                            <Button htmlType="submit" onClick={handleSubmit} type="primary">Add Comment</Button>
+                        </div>}
+                    </div>
+                }
+                datetime={<span style={{fontSize: 15}}>{moment(props.data.create_date).format('YYYY-MM-DD HH:mm:ss')}</span>}
+            >
 
-        </Comment>
+            </Comment>
+        </div>
     )
 }
 

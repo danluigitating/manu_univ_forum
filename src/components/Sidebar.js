@@ -14,7 +14,6 @@ import {
     SettingOutlined
 } from '@ant-design/icons'
 import React, {useState} from "react"
-import Posts from "./Posts"
 import {NewsFeed} from "../pages/NewsFeed";
 
 const {Header, Content, Footer, Sider} = Layout

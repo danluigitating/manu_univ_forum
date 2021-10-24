@@ -9,6 +9,7 @@ CREATE TABLE USERS (
 CREATE TABLE POSTS (
     post_id INTEGER AUTO_INCREMENT PRIMARY KEY,
     content TEXT,
+    tags TEXT,
     user_id VARCHAR(255) NOT NULL,
     likes INTEGER,
     dislikes INTEGER

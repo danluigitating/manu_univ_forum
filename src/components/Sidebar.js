@@ -1,6 +1,14 @@
 import {Menu, Layout} from 'antd';
-import {HomeOutlined, FormOutlined, CommentOutlined, LikeOutlined, DislikeOutlined, SettingOutlined} from '@ant-design/icons';
+import {
+    HomeOutlined,
+    FormOutlined,
+    CommentOutlined,
+    LikeOutlined,
+    DislikeOutlined,
+    SettingOutlined
+} from '@ant-design/icons';
 import React from "react";
+import Posts from "./Posts";
 
 const {Header, Content, Footer, Sider} = Layout;
 
@@ -9,7 +17,12 @@ export default function Sidebar() {
     return (
         <Layout style={{minHeight: '100vh'}}>
             <Sider>
-                <h1 style={{marginLeft: 25, marginTop: 25, marginBottom: 15, color: 'rgba(255, 255, 255, 0.65)'}}>Anonymous Blog</h1>
+                <h1 style={{
+                    marginLeft: 25,
+                    marginTop: 20,
+                    marginBottom: 15,
+                    color: 'rgba(255, 255, 255, 0.65)'
+                }}>Anonymous Blog</h1>
                 <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
                     <Menu.Item key="1" icon={<HomeOutlined/>}>
                         Home
@@ -32,10 +45,12 @@ export default function Sidebar() {
                 </Menu>
             </Sider>
             <Layout>
-                {/*<Header className="site-layout-sub-header-background" style={{padding: 0}}>TEST</Header>*/}
+                <Header className="site-layout-sub-header-background"
+                        style={{height: 64, textAlign: 'center', color: "white", fontSize: 20}}>News Feed</Header>
                 <Content style={{margin: '24px 16px 0'}}>
                     <div className="site-layout-background" style={{padding: 24, minHeight: 360}}>
                         content
+                        <Posts/>
                     </div>
                 </Content>
                 <Footer style={{textAlign: 'center'}}>Manulife University Cohort 8 (2021)</Footer>

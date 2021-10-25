@@ -26,15 +26,16 @@ Dislike.create = (dislike, result) => {
         }
         result(null, {id: res.insertId, ...dislike})
 
-        sql.query("UPDATE POSTS SET DISLIKES = DISLIKES + 1 WHERE POST_ID = ? AND USER_ID = ?", [dislike.post_id, dislike.user_id],
-            (err, res) => {
-                if (err) {
-                    console.log("error: ", err)
-                    result(null, err)
-                    return
-                }
-            }
-        )
+        if (res.insertId) {
+            sql.query("UPDATE POSTS SET DISLIKES = DISLIKES + 1 WHERE POST_ID = ?", [dislike.post_id],
+                (err, res) => {
+                    if (err) {
+                        console.log("error: ", err)
+                        result(null, err)
+                        return
+                    }
+                })
+        }
     })
 }
 

@@ -3,19 +3,23 @@ import {Comment, Tooltip, Avatar, List, Input, Button, notification} from 'antd'
 import moment from 'moment'
 import {DislikeOutlined, LikeOutlined, DislikeFilled, LikeFilled} from '@ant-design/icons'
 import {createNewComment} from "../api/comments";
+import {incrementDislikes} from "../api/dislikes";
+import {incrementLikes} from "../api/likes";
 
 const Posts = props => {
-    const [likes, setLikes] = useState(props.data.dislikes)
-    const [dislikes, setDislikes] = useState(props.data.likes)
+    const [likes, setLikes] = useState(props.data.likes)
+    const [dislikes, setDislikes] = useState(props.data.dislikes)
     const [action, setAction] = useState(null)
 
     let existingComments = []
-    props.comments.forEach( comment => { existingComments.push({
-        author: comment.user_id,
-        avatar: 'https://joeschmoe.io/api/v1/random',
-        content: <p>{comment.content}</p>,
-        datetime: moment(comment.create_date).format('YYYY-MM-DD HH:mm:ss')
-    })})
+    props.comments.forEach(comment => {
+        existingComments.push({
+            author: comment.user_id,
+            avatar: 'https://joeschmoe.io/api/v1/random',
+            content: <p>{comment.content}</p>,
+            datetime: moment(comment.create_date).format('YYYY-MM-DD HH:mm:ss')
+        })
+    })
 
     const [comment, setComment] = useState(existingComments)
     const [value, setValue] = useState('')
@@ -32,13 +36,35 @@ const Posts = props => {
     )
 
     const like = () => {
-        setLikes(Number(likes) + 1)
-        setAction('upvoted')
+        const data = {
+            "userId": localStorage.getItem("randomName"),
+            "postId": props.postId
+        }
+        incrementLikes(data).then(res => {
+            if (res.status === 200) {
+                openSuccessNotification('Upvote added!')
+                setLikes(Number(likes) + 1)
+                setAction('upvoted')
+            }
+        }).catch(error => {
+            openFailNotification('Cannot upvote twice!')
+        })
     }
 
     const dislike = () => {
-        setDislikes(Number(dislikes) + 1)
-        setAction('downvoted')
+        const data = {
+            "userId": localStorage.getItem("randomName"),
+            "postId": props.postId
+        }
+        incrementDislikes(data).then(res => {
+            if (res.status === 200) {
+                openSuccessNotification('Downvote added!')
+                setDislikes(Number(dislikes) + 1)
+                setAction('downvoted')
+            }
+        }).catch(error => {
+            openFailNotification('Cannot downvote twice!')
+        })
     }
 
     const actions = [
@@ -59,8 +85,12 @@ const Posts = props => {
         <div key="comment-basic" style={{fontSize: 15}}>Tags: {props.data.tags}</div>,
     ]
 
-    const openCreatedSuccessNotification = () => {
-        notification['success']({message: 'Comment created successfully!'})
+    const openSuccessNotification = (message) => {
+        notification['success']({message: message})
+    }
+
+    const openFailNotification = (message) => {
+        notification['error']({message: message})
     }
 
     const handleSubmit = () => {
@@ -74,7 +104,7 @@ const Posts = props => {
             "userId": localStorage.getItem("randomName")
         }
 
-        createNewComment(data).then(res => res.status === 200 ? openCreatedSuccessNotification() : '')
+        createNewComment(data).then(res => res.status === 200 ? openSuccessNotification('Comment created successfully!') : '')
 
         setValue('')
         setComment([...comment, {
@@ -107,7 +137,8 @@ const Posts = props => {
                         </div>}
                     </div>
                 }
-                datetime={<span style={{fontSize: 15}}>{moment(props.data.create_date).format('YYYY-MM-DD HH:mm:ss')}</span>}
+                datetime={<span
+                    style={{fontSize: 15}}>{moment(props.data.create_date).format('YYYY-MM-DD HH:mm:ss')}</span>}
             >
 
             </Comment>

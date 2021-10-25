@@ -13,4 +13,7 @@ module.exports = (app) => {
 
     app.post("/api/v1/post", (req, res) => post.create(req, res))
     app.post("/api/v1/comment", (req, res) => comment.create(req, res))
+
+    app.post("/api/v1/like", (req, res) => like.incrementLike(req, res))
+    app.post("/api/v1/dislike", (req, res) => dislike.incrementDislike(req, res))
 }

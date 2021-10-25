@@ -27,7 +27,7 @@ export const NewsFeed = () => {
         {Object.keys(newsFeedData).length !== 0 && Object.keys(newsFeedComments).length !== 0
         && Object.keys(users).length !== 0 && newsFeedData.map((data) => {
             const comment = newsFeedComments.filter((comment) => comment.post_id === data.post_id)
-            return <Posts key={data.post_id} data={data} comments={comment} users={users}/>
+            return <Posts key={data.post_id} postId={data.post_id} data={data} comments={comment} users={users}/>
         })}
     </div>)
 }

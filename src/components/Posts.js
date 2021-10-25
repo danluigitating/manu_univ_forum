@@ -1,7 +1,8 @@
 import React, {createElement, useState} from 'react'
-import {Comment, Tooltip, Avatar, List, Input, Button} from 'antd'
+import {Comment, Tooltip, Avatar, List, Input, Button, notification} from 'antd'
 import moment from 'moment'
 import {DislikeOutlined, LikeOutlined, DislikeFilled, LikeFilled} from '@ant-design/icons'
+import {createNewComment} from "../api/comments";
 
 const Posts = props => {
     const [likes, setLikes] = useState(props.data.dislikes)
@@ -59,10 +60,22 @@ const Posts = props => {
         <div key="comment-basic" style={{fontSize: 15}}>Tags: {props.data.tags}</div>,
     ]
 
+    const openCreatedSuccessNotification = () => {
+        notification['success']({message: 'Comment created successfully!'})
+    }
+
     const handleSubmit = () => {
         if (!value) {
             return
         }
+
+        const data = {
+            "content": value,
+            "postId": props.postId,
+            "userId": localStorage.getItem("randomName")
+        }
+
+        createNewComment(data).then(res => res.status === 200 ? openCreatedSuccessNotification() : '')
 
         setValue('')
         setComment([...comment, {

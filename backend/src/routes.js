@@ -10,4 +10,7 @@ module.exports = (app) => {
     app.get("/api/v1/comments", (req,res) => comment.findAll(req, res))
     app.get("/api/v1/likes", (req,res) => like.findAll(req, res))
     app.get("/api/v1/dislikes", (req,res) => dislike.findAll(req, res))
+
+    app.post("/api/v1/post", (req, res) => post.create(req, res))
+    app.post("/api/v1/comment", (req, res) => comment.create(req, res))
 }

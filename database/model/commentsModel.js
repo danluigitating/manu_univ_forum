@@ -19,8 +19,19 @@ Comment.findAll = result => {
             return
         }
         result(null, res)
-    });
-};
+    })
+}
+
+Comment.create = (comment, result) => {
+    sql.query("INSERT INTO COMMENTS SET ?", comment, (err, res) => {
+        if (err) {
+            console.log("error: ", err)
+            result(err, null)
+            return
+        }
+        result(null, { id: res.insertId, ...comment })
+    })
+}
 
 module.exports = Comment
 

@@ -14,13 +14,24 @@ const Post = (post) => {
 Post.findAll = result => {
     sql.query("SELECT * FROM POSTS", (err, res) => {
         if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
+            console.log("error: ", err)
+            result(null, err)
+            return
         }
-        result(null, res);
+        result(null, res)
     });
 };
+
+Post.create = (post, result) => {
+    sql.query("INSERT INTO POSTS SET ?", post, (err, res) => {
+        if (err) {
+            console.log("error: ", err)
+            result(err, null)
+            return
+        }
+        result(null, { id: res.insertId, ...post })
+    })
+}
 
 module.exports = Post
 

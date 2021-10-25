@@ -9,15 +9,20 @@ export const NewsFeed = () => {
     const [newsFeedData, setNewsFeedData] = useState([])
     const [newsFeedComments, setNewsFeedComments] = useState([])
     const [users, setUsers] = useState([])
+    const [flag, setFlag] = useState(false)
 
     useEffect(() => {
         getAllPosts().then(res => setNewsFeedData(res.data))
         getAllComments().then(res => setNewsFeedComments(res.data))
         getAllUsers().then(res => setUsers(res.data))
-    }, [])
+    }, [flag])
+
+    const handleUpdateFlag = () => {
+        setFlag(!flag)
+    }
 
     return (<div>
-        <ModalDialog/>
+        <ModalDialog handleUpdateFlag={handleUpdateFlag}/>
 
         {Object.keys(newsFeedData).length !== 0 && Object.keys(newsFeedComments).length !== 0
         && Object.keys(users).length !== 0 && newsFeedData.map((data) => {

@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import {Modal, Button, Input, Select } from 'antd';
+import React, {useState} from 'react';
+import {Modal, Button, Input, Select, notification} from 'antd';
+import {createNewPost} from "../api/posts";
 
-const ModalDialog = () => {
+const ModalDialog = (props) => {
     const [visible, setVisible] = useState(false)
     const [content, setContent] = useState('')
     const [tags, setTags] = useState('')
@@ -15,9 +16,23 @@ const ModalDialog = () => {
         setTags(value)
     }
 
-    return (
+    const openCreatedSuccessNotification = () => {
+        notification['success']({message: 'Post created successfully!'})
+    }
 
-        <>
+    const handleSendPost = () => {
+        const post = {
+            "content": content,
+            "tags": tags,
+            "userId": localStorage.getItem("randomName")
+        }
+        createNewPost(post).then(res => res.status === 200 ? openCreatedSuccessNotification() : '')
+        props.handleUpdateFlag()
+        setVisible(false)
+    }
+
+    return (
+        <div>
             <Button type="primary" onClick={() => setVisible(true)} style={{marginBottom: 20}}>
                 Create New Post
             </Button>
@@ -25,20 +40,19 @@ const ModalDialog = () => {
                 title="Create New Post"
                 centered
                 visible={visible}
-                onOk={() => { setVisible(false)
-                }}
+                onOk={() => handleSendPost()}
                 onCancel={() => setVisible(false)}
                 width={1000}
             >
                 <p>Random Username: <b>{localStorage.getItem("randomName")}</b></p>
                 <p>Content:</p>
-                <TextArea rows={4} onChange={handleChange} value={content}
+                <TextArea rows={4} onChange={handleChange} value={content} placeholder="Type more information"
                           style={{marginBottom: 20}}/>
-
-                <Select mode="tags" style={{ width: '100%' }} placeholder="Post Tags" onChange={handleChangeTags}>
-                </Select>,
+                <p>Tags:</p>
+                <Select mode="tags" style={{width: '100%'}} placeholder="Keep it short and unique"
+                        onChange={handleChangeTags}/>
             </Modal>
-        </>
+        </div>
     )
 }
 

@@ -10,7 +10,7 @@ const Posts = props => {
     const [action, setAction] = useState(null)
 
     let existingComments = []
-    props.comments.map( comment => { existingComments.push({
+    props.comments.forEach( comment => { existingComments.push({
         author: comment.user_id,
         avatar: 'https://joeschmoe.io/api/v1/random',
         content: <p>{comment.content}</p>,
@@ -21,7 +21,6 @@ const Posts = props => {
     const [value, setValue] = useState('')
     const [openComment, setOpenComment] = useState(false)
     const {TextArea} = Input
-    const [individualPost, setindividualPost] = useState(props.data.content)
 
     const CommentList = ({comments}) => (
         <List
@@ -99,7 +98,7 @@ const Posts = props => {
                 content={
                     <div>
                         <p style={{fontSize: 15}}>
-                            {individualPost}
+                            {props.data.content}
                         </p>
                         {comment.length > 0 && <CommentList comments={comment}/>}
                         {openComment && <div><TextArea rows={4} onChange={handleChange} value={value}

@@ -23,7 +23,7 @@ const ModalDialog = (props) => {
     const handleSendPost = () => {
         const post = {
             "content": content,
-            "tags": tags,
+            "tags": tags.toString(),
             "userId": localStorage.getItem("randomName")
         }
         createNewPost(post).then(res => res.status === 200 ? openCreatedSuccessNotification() : '')
